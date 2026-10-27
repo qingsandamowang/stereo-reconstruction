@@ -19,3 +19,14 @@ runtime/
 *.ply
 results/**/*.png
 results/**/*.jpg
+*.html
+*.npy
+*.npz
+*.png
+*.jpg
+*.jpeg
+*.bmp
+*.tiff
+*.pfm
+outputs/
+results/**/inputs/

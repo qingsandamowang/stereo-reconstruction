@@ -20,6 +20,18 @@ class Calibration:
     width: int
     height: int
     ndisp: int
+    focal_y_px: float | None = None
+
+    def __post_init__(self):
+        numeric = (self.focal_px, self.fy_px, self.cx_px, self.cy_px, self.doffs_px, self.baseline_mm)
+        if not np.isfinite(numeric).all() or self.focal_px <= 0 or self.fy_px <= 0 or self.baseline_mm <= 0:
+            raise ValueError("Calibration requires finite values, positive focal lengths and positive baseline in mm")
+        if any(not isinstance(value, (int, np.integer)) or value <= 0 for value in (self.width, self.height, self.ndisp)):
+            raise ValueError("Calibration width, height and ndisp must be positive integers")
+
+    @property
+    def fy_px(self) -> float:
+        return self.focal_px if self.focal_y_px is None else self.focal_y_px
 
 
 def read_pfm(path: Path) -> np.ndarray:
@@ -42,26 +54,38 @@ def read_pfm(path: Path) -> np.ndarray:
 def parse_calibration(path: Path) -> Calibration:
     """Read the Middlebury v3 calib.txt used by ETH3D two-view scenes."""
     contents = path.read_text(encoding="utf-8")
-    fields = dict(re.findall(r"(?m)^([A-Za-z0-9]+)=(.+)$", contents))
+    fields = dict(re.findall(r"(?m)^\s*([A-Za-z0-9]+)\s*=\s*(.+)$", contents))
     required = {"cam0", "doffs", "baseline", "width", "height", "ndisp"}
     if not required.issubset(fields):
         raise ValueError(f"Missing calibration fields: {sorted(required - fields.keys())}")
-    rows = fields["cam0"].strip("[]").split(";")
-    if len(rows) != 3:
-        raise ValueError(f"Invalid camera matrix: {path}")
-    first = [float(value) for value in rows[0].split()]
-    second = [float(value) for value in rows[1].split()]
-    if len(first) != 3 or len(second) != 3:
-        raise ValueError(f"Invalid camera matrix: {path}")
+    def camera(key):
+        try:
+            matrix = np.array([[float(value) for value in row.split()] for row in fields[key].strip().strip("[]").split(";")])
+        except ValueError as error:
+            raise ValueError(f"Invalid camera matrix: {path}") from error
+        if matrix.shape != (3, 3) or not np.isfinite(matrix).all() or matrix[0, 0] <= 0 or matrix[1, 1] <= 0:
+            raise ValueError(f"Invalid camera matrix: {path}")
+        if not np.allclose(matrix[2], [0, 0, 1]) or not np.allclose([matrix[0, 1], matrix[1, 0]], [0, 0]):
+            raise ValueError("Camera matrices must describe a rectified pinhole pair without skew")
+        return matrix
+
+    cam0 = camera("cam0")
+    if "cam1" in fields:
+        cam1 = camera("cam1")
+        if not np.allclose(cam0[[0, 1], [0, 1]], cam1[[0, 1], [0, 1]], rtol=1e-5) or not np.isclose(cam0[1, 2], cam1[1, 2], atol=1e-3):
+            raise ValueError("Camera matrices are inconsistent with a horizontally rectified pair")
+        if not np.isclose(cam1[0, 2] - cam0[0, 2], float(fields["doffs"]), atol=0.02, rtol=1e-5):
+            raise ValueError("Calibration doffs differs from rectified camera principal-point offset")
     return Calibration(
-        focal_px=first[0],
-        cx_px=first[2],
-        cy_px=second[2],
+        focal_px=float(cam0[0, 0]),
+        cx_px=float(cam0[0, 2]),
+        cy_px=float(cam0[1, 2]),
         doffs_px=float(fields["doffs"]),
         baseline_mm=float(fields["baseline"]),
         width=int(fields["width"]),
         height=int(fields["height"]),
         ndisp=int(fields["ndisp"]),
+        focal_y_px=float(cam0[1, 1]),
     )
 
 

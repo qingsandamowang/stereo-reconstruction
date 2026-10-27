@@ -1,0 +1,23 @@
+{
+  "selection_split": "validation",
+  "parameters": {
+    "bm": {
+      "num_disp": 64,
+      "block_size": 21
+    },
+    "sgbm": {
+      "num_disp": 64,
+      "block_size": 7
+    },
+    "sgbm_wls": {
+      "num_disp": 64,
+      "block_size": 7,
+      "wls_lambda": 8000,
+      "wls_sigma": 0.8
+    },
+    "sgbm_consistency": {
+      "num_disp": 64,
+      "block_size": 7
+    }
+  }
+}

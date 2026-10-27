@@ -14,7 +14,7 @@ def left_right_consistency(left: np.ndarray, right: np.ndarray, tolerance: float
     x = np.broadcast_to(np.arange(width), (height, width))
     y = np.broadcast_to(np.arange(height)[:, None], (height, width))
     valid_left = np.isfinite(left) & (left > 0)
-    right_x = np.rint(x - np.nan_to_num(left, nan=0.0)).astype(np.int32)
+    right_x = np.rint(np.clip(x - np.where(valid_left, left, 0.0), -1, width)).astype(np.int32)
     inside = (right_x >= 0) & (right_x < width)
     sampled_right = right[y, np.clip(right_x, 0, width - 1)]
     return valid_left & inside & np.isfinite(sampled_right) & (sampled_right < 0) & (np.abs(left + sampled_right) <= tolerance)
@@ -54,16 +54,38 @@ def match_stereo(
     block_size: int = 5,
     consistency: bool = False,
     tolerance: float = 1.0,
+    wls_lambda: float = 8000.0,
+    wls_sigma: float = 1.2,
 ) -> np.ndarray:
     """Compute left-view disparity in pixels, marking unreliable pixels as NaN."""
     if left.shape != right.shape or left.ndim != 2 or left.dtype != np.uint8 or right.dtype != np.uint8:
         raise ValueError("Expected same-shaped uint8 grayscale stereo images")
     if num_disp < 16 or num_disp % 16 or block_size < 3 or block_size % 2 == 0:
         raise ValueError("num_disp must be a multiple of 16; block_size must be odd and at least 3")
-    raw = _matcher(method, num_disp, block_size).compute(left, right).astype(np.float32) / 16.0
+    if method == "sgbm_wls" and not hasattr(cv2, "ximgproc"):
+        raise RuntimeError("SGBM+WLS requires opencv-contrib-python; uninstall opencv-python and install requirements.txt in a fresh environment")
+    if method == "sgbm_wls" and (not np.isfinite(wls_lambda) or wls_lambda <= 0 or not np.isfinite(wls_sigma) or wls_sigma <= 0):
+        raise ValueError("WLS lambda and sigma must be finite and positive")
+    if not np.isfinite(tolerance) or tolerance < 0:
+        raise ValueError("Consistency tolerance must be finite and non-negative")
+    matcher = _matcher("sgbm" if method == "sgbm_wls" else method, num_disp, block_size)
+    fixed_left = matcher.compute(left, right)
+    raw = fixed_left.astype(np.float32) / 16.0
     disparity = np.where(raw > 0, raw, np.nan)
+    if method == "sgbm_wls":
+        # Compute before creating the filter: its factory may modify matcher settings.
+        # Retain the unfiltered mask; no hole-filling is credited as extra coverage.
+        right_matcher = cv2.ximgproc.createRightMatcher(matcher)
+        fixed_right = right_matcher.compute(right, left)
+        wls = cv2.ximgproc.createDisparityWLSFilter(matcher)
+        wls.setLambda(wls_lambda)
+        wls.setSigmaColor(wls_sigma)
+        filtered = wls.filter(fixed_left, left, disparity_map_right=fixed_right).astype(np.float32) / 16.0
+        disparity = np.where(np.isfinite(disparity) & (filtered > 0), filtered, np.nan)
     if consistency:
-        right_raw = _matcher(method, num_disp, block_size, right_view=True).compute(right, left).astype(np.float32) / 16.0
-        right_disparity = np.where(right_raw < -0.5, right_raw, np.nan)
+        right_raw = _matcher("sgbm" if method == "sgbm_wls" else method, num_disp, block_size, right_view=True).compute(right, left).astype(np.float32) / 16.0
+        # Right minDisparity = -num_disp + 1, sentinel = minDisparity - 1.
+        # A negative sign alone does not distinguish this sentinel from real matches.
+        right_disparity = np.where((right_raw > -num_disp) & (right_raw < 0), right_raw, np.nan)
         disparity[~left_right_consistency(disparity, right_disparity, tolerance)] = np.nan
     return disparity

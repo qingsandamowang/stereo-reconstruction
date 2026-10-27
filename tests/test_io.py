@@ -1,6 +1,7 @@
 from pathlib import Path
 
 import numpy as np
+import pytest
 
 
 def test_read_pfm_restores_top_to_bottom_order(tmp_path: Path):
@@ -41,3 +42,28 @@ def test_non_occluded_mask_accepts_only_pixels_visible_in_both_views():
     encoded = np.array([[0, 128, 255]], dtype=np.uint8)
 
     assert np.array_equal(non_occluded_pixels(encoded), np.array([[False, False, True]]))
+
+
+@pytest.mark.parametrize("field", ["baseline=0", "baseline=nan", "width=-1", "height=0", "ndisp=0", "doffs=inf",
+                                  "cam0=[0 0 80; 0 100 40; 0 0 1]"])
+def test_calibration_rejects_nonphysical_or_nonfinite_values(tmp_path, field):
+    from stereolab.io import parse_calibration
+
+    fields = {"cam0": "[100 0 80; 0 120 40; 0 0 1]", "baseline": "20", "width": "160",
+              "height": "80", "ndisp": "64", "doffs": "0"}
+    key, value = field.split("=", 1)
+    fields[key] = value
+    path = tmp_path / "calib.txt"
+    path.write_text("\n".join(f"{key}={value}" for key, value in fields.items()))
+    with pytest.raises(ValueError, match="[Cc]alibration|[Cc]amera"):
+        parse_calibration(path)
+
+
+def test_calibration_checks_rectified_camera_consistency(tmp_path):
+    from stereolab.io import parse_calibration
+
+    path = tmp_path / "calib.txt"
+    path.write_text("cam0=[100 0 80; 0 120 40; 0 0 1]\ncam1=[100 0 80; 0 120 50; 0 0 1]\n"
+                    "baseline=20\nwidth=160\nheight=80\nndisp=64\ndoffs=0\n")
+    with pytest.raises(ValueError, match="rectified"):
+        parse_calibration(path)

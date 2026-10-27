@@ -1,0 +1,70 @@
+{
+  "method": "sgbm_wls",
+  "parameters": {
+    "num_disp": 64,
+    "block_size": 7,
+    "consistency": false,
+    "wls_lambda": 8000.0,
+    "wls_sigma": 0.8
+  },
+  "calibration": {
+    "focal_px": 180.0,
+    "cx_px": 128.0,
+    "cy_px": 60.0,
+    "doffs_px": 0.0,
+    "baseline_mm": 60.0,
+    "width": 256,
+    "height": 120,
+    "ndisp": 64,
+    "focal_y_px": 180.0
+  },
+  "units": "mm",
+  "matching_ms": 7.08790000044246,
+  "opencv": "5.0.0",
+  "opencv_threads": 1,
+  "inputs_sha256": {
+    "left": "b5db1fd6ff125c6c194f4f3e18ccfd7817b0b082fbbba53c4e22de63a72aa1d2",
+    "right": "186d1e77ae83b71312021f1279ef4a474274c74091061a0eaa6d558cd6d17f5a",
+    "calibration": "a93bb19f207bdb6a5c58b2691118b905f564b9b05913402e7c87579382b2911c",
+    "ground_truth": "191f933af83c192efb246a3c031ec9c9a7a94fdc706a6a70221c8cd87dd30e81",
+    "mask": "0203d57acb39b8ceca64fda75fc2adfdcdd88fa4bee16646a8d12c3c6379eee4"
+  },
+  "valid_disparity_pixels": 23040,
+  "prediction_fraction_of_image": 0.75,
+  "valid_depth_pixels": 23040,
+  "depth_median_mm": 900.0,
+  "ply_points": 23040,
+  "viewer_points": 20000,
+  "viewer_limit": 20000,
+  "cloud_stride": 1,
+  "cloud_max_depth_mm": null,
+  "search_policy": "calib.ndisp rounded to 16 and capped to image width; use --num-disp to change the search/coverage tradeoff",
+  "preview_scale": "each PNG uses its own 99th percentile; numerical data is in the NPY files",
+  "accuracy_status": "evaluated against supplied ground truth",
+  "accuracy": {
+    "valid_gt_pixels": 29280,
+    "valid_prediction_pixels": 23040,
+    "coverage": 0.7868852459016393,
+    "epe_valid_px": 0.0009657117770984769,
+    "bad1_valid": 0.00017361111111111112,
+    "bad1_all": 0.21325136612021858,
+    "bad2_valid": 0.0,
+    "bad2_all": 0.21311475409836064,
+    "bad3_valid": 0.0,
+    "bad3_all": 0.21311475409836064,
+    "depth_valid_gt_pixels": 29280,
+    "depth_valid_prediction_pixels": 23040,
+    "depth_gt_rejected_pixels": 0,
+    "depth_coverage": 0.7868852459016393,
+    "depth_mae_valid_mm": 0.07612131436665853,
+    "depth_rmse_valid_mm": 1.9305659627874356
+  },
+  "accuracy_mask": "mask == 255 and finite positive GT",
+  "depth_accuracy_policy": "derived from supplied GT disparity and calibration; excludes nonpositive/nonfinite GT depth; reports coverage; not hardware measurement accuracy",
+  "synthetic_demo": {
+    "seed": 20261027,
+    "shift_px": 12,
+    "expected_depth_mm": 900,
+    "scope": "one textured fronto-parallel plane; exact horizontal translation; not natural-scene evidence"
+  }
+}
