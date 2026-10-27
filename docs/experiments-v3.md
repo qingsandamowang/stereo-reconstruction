@@ -79,8 +79,8 @@ WLS 相对 SGBM：Bad2-all 降 1.52 个百分点（相对降 8.24%），EPE 相�
 实际运行命令（PowerShell，项目根目录；环境在仓库外）：
 
 ```powershell
-$py='C:\Users\lzw666\Desktop\实习简历\.venv-stereo-upgrade\Scripts\python.exe'
-$data='C:\Users\lzw666\Desktop\学习\stereo-reconstruction\data\eth3d'
+$py='python'
+$data='C:/datasets/eth3d'
 $env:PYTHONPATH='src'
 & $py -m pytest -q
 & $py -m stereolab.benchmark --data $data --out results/eth3d_v3 --threads 1
