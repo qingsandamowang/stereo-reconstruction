@@ -1,0 +1,37 @@
+{
+  "source_url": "https://www.eth3d.net/datasets",
+  "input_sha256": "cb7683a01ba037759f30b5a4f561d302453e20f1f7095cbdc51c8564b218224b",
+  "ground_truth_sha256": "e440f7ec4444dfd2af33a44495f325a3aed06762432e2419277596ba7dcb9b40",
+  "validation_scenes": [
+    "delivery_area_1l",
+    "delivery_area_1s",
+    "delivery_area_2l",
+    "delivery_area_2s",
+    "delivery_area_3l",
+    "delivery_area_3s",
+    "electro_1l",
+    "electro_1s",
+    "electro_2l",
+    "electro_2s",
+    "electro_3l",
+    "electro_3s",
+    "facade_1s"
+  ],
+  "test_scenes": [
+    "forest_1s",
+    "forest_2s",
+    "playground_1l",
+    "playground_1s",
+    "playground_2l",
+    "playground_2s",
+    "playground_3l",
+    "playground_3s",
+    "terrace_1s",
+    "terrace_2s",
+    "terrains_1l",
+    "terrains_1s",
+    "terrains_2l",
+    "terrains_2s"
+  ],
+  "metric_mask": "mask0nocc == 255 and finite positive ground-truth disparity"
+}

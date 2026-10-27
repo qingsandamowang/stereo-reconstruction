@@ -1,0 +1,240 @@
+{
+  "bm": [
+    {
+      "num_disp": 64,
+      "block_size": 9,
+      "validation": {
+        "scenes": 13,
+        "valid_gt_pixels": 3346777,
+        "valid_prediction_pixels": 1527985,
+        "coverage": 0.45655417137144183,
+        "epe_valid_px": 0.5990973582986402,
+        "bad2_all": 0.5531208084673702,
+        "bad2_scene_mean": 0.5285227930816696
+      }
+    },
+    {
+      "num_disp": 64,
+      "block_size": 15,
+      "validation": {
+        "scenes": 13,
+        "valid_gt_pixels": 3346777,
+        "valid_prediction_pixels": 1942098,
+        "coverage": 0.5802890362877479,
+        "epe_valid_px": 0.760385268631399,
+        "bad2_all": 0.43696218780038226,
+        "bad2_scene_mean": 0.42050904718459986
+      }
+    },
+    {
+      "num_disp": 64,
+      "block_size": 21,
+      "validation": {
+        "scenes": 13,
+        "valid_gt_pixels": 3346777,
+        "valid_prediction_pixels": 2093274,
+        "coverage": 0.6254596586506959,
+        "epe_valid_px": 0.6234180380277966,
+        "bad2_all": 0.3898033839721021,
+        "bad2_scene_mean": 0.3793832260491789
+      }
+    },
+    {
+      "num_disp": 96,
+      "block_size": 9,
+      "validation": {
+        "scenes": 13,
+        "valid_gt_pixels": 3346777,
+        "valid_prediction_pixels": 1439723,
+        "coverage": 0.43018193324502946,
+        "epe_valid_px": 0.6097606120501469,
+        "bad2_all": 0.5778311491921929,
+        "bad2_scene_mean": 0.5534234403506543
+      }
+    },
+    {
+      "num_disp": 96,
+      "block_size": 15,
+      "validation": {
+        "scenes": 13,
+        "valid_gt_pixels": 3346777,
+        "valid_prediction_pixels": 1844768,
+        "coverage": 0.5512073257345799,
+        "epe_valid_px": 0.7925321556502128,
+        "bad2_all": 0.46266661925787106,
+        "bad2_scene_mean": 0.4457758832397102
+      }
+    },
+    {
+      "num_disp": 96,
+      "block_size": 21,
+      "validation": {
+        "scenes": 13,
+        "valid_gt_pixels": 3346777,
+        "valid_prediction_pixels": 1999571,
+        "coverage": 0.597461677309244,
+        "epe_valid_px": 0.6674874783184781,
+        "bad2_all": 0.4154522395725798,
+        "bad2_scene_mean": 0.4045359523820562
+      }
+    },
+    {
+      "num_disp": 128,
+      "block_size": 9,
+      "validation": {
+        "scenes": 13,
+        "valid_gt_pixels": 3346777,
+        "valid_prediction_pixels": 1367275,
+        "coverage": 0.4085348381442803,
+        "epe_valid_px": 0.7569951651020643,
+        "bad2_all": 0.5990228808193674,
+        "bad2_scene_mean": 0.5752213746200707
+      }
+    },
+    {
+      "num_disp": 128,
+      "block_size": 15,
+      "validation": {
+        "scenes": 13,
+        "valid_gt_pixels": 3346777,
+        "valid_prediction_pixels": 1763275,
+        "coverage": 0.5268576304904689,
+        "epe_valid_px": 1.0267155946589641,
+        "bad2_all": 0.4861193321216203,
+        "bad2_scene_mean": 0.4693885018341275
+      }
+    },
+    {
+      "num_disp": 128,
+      "block_size": 21,
+      "validation": {
+        "scenes": 13,
+        "valid_gt_pixels": 3346777,
+        "valid_prediction_pixels": 1912007,
+        "coverage": 0.5712979980440884,
+        "epe_valid_px": 0.7175158333476512,
+        "bad2_all": 0.4403857801102374,
+        "bad2_scene_mean": 0.4295177551351208
+      }
+    }
+  ],
+  "sgbm": [
+    {
+      "num_disp": 64,
+      "block_size": 3,
+      "validation": {
+        "scenes": 13,
+        "valid_gt_pixels": 3346777,
+        "valid_prediction_pixels": 2955137,
+        "coverage": 0.8829799535493401,
+        "epe_valid_px": 1.6721695398632832,
+        "bad2_all": 0.17726218388616868,
+        "bad2_scene_mean": 0.18616605742071193
+      }
+    },
+    {
+      "num_disp": 64,
+      "block_size": 5,
+      "validation": {
+        "scenes": 13,
+        "valid_gt_pixels": 3346777,
+        "valid_prediction_pixels": 2974722,
+        "coverage": 0.8888318522566636,
+        "epe_valid_px": 1.609417882491556,
+        "bad2_all": 0.1627604707454366,
+        "bad2_scene_mean": 0.17307268487532057
+      }
+    },
+    {
+      "num_disp": 64,
+      "block_size": 7,
+      "validation": {
+        "scenes": 13,
+        "valid_gt_pixels": 3346777,
+        "valid_prediction_pixels": 2987299,
+        "coverage": 0.8925897960933759,
+        "epe_valid_px": 1.5913603422045746,
+        "bad2_all": 0.15510982655850689,
+        "bad2_scene_mean": 0.16630399364288773
+      }
+    },
+    {
+      "num_disp": 96,
+      "block_size": 3,
+      "validation": {
+        "scenes": 13,
+        "valid_gt_pixels": 3346777,
+        "valid_prediction_pixels": 2827680,
+        "coverage": 0.8448964481350266,
+        "epe_valid_px": 1.9111169202203055,
+        "bad2_all": 0.20608244887544047,
+        "bad2_scene_mean": 0.21517757968892876
+      }
+    },
+    {
+      "num_disp": 96,
+      "block_size": 5,
+      "validation": {
+        "scenes": 13,
+        "valid_gt_pixels": 3346777,
+        "valid_prediction_pixels": 2844604,
+        "coverage": 0.8499532535331753,
+        "epe_valid_px": 1.813718924922757,
+        "bad2_all": 0.19282312505434332,
+        "bad2_scene_mean": 0.20328106263632764
+      }
+    },
+    {
+      "num_disp": 96,
+      "block_size": 7,
+      "validation": {
+        "scenes": 13,
+        "valid_gt_pixels": 3346777,
+        "valid_prediction_pixels": 2858690,
+        "coverage": 0.8541620789195097,
+        "epe_valid_px": 1.8140526371502435,
+        "bad2_all": 0.18543332884144956,
+        "bad2_scene_mean": 0.1966942370686469
+      }
+    },
+    {
+      "num_disp": 128,
+      "block_size": 3,
+      "validation": {
+        "scenes": 13,
+        "valid_gt_pixels": 3346777,
+        "valid_prediction_pixels": 2698511,
+        "coverage": 0.806301405800267,
+        "epe_valid_px": 1.7294402995368405,
+        "bad2_all": 0.234028141104113,
+        "bad2_scene_mean": 0.24306160710717697
+      }
+    },
+    {
+      "num_disp": 128,
+      "block_size": 5,
+      "validation": {
+        "scenes": 13,
+        "valid_gt_pixels": 3346777,
+        "valid_prediction_pixels": 2716997,
+        "coverage": 0.8118249288793368,
+        "epe_valid_px": 1.6723136088512995,
+        "bad2_all": 0.22157018528572414,
+        "bad2_scene_mean": 0.23182969099065595
+      }
+    },
+    {
+      "num_disp": 128,
+      "block_size": 7,
+      "validation": {
+        "scenes": 13,
+        "valid_gt_pixels": 3346777,
+        "valid_prediction_pixels": 2731477,
+        "coverage": 0.816151479468157,
+        "epe_valid_px": 1.7009757015004836,
+        "bad2_all": 0.21468266335044134,
+        "bad2_scene_mean": 0.22558360909697497
+      }
+    }
+  ]
+}
